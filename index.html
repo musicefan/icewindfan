@@ -118,6 +118,24 @@
   footer{padding:60px 40px 40px;text-align:center;border-top:1px solid rgba(0,212,255,0.1);}
   .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:4px;color:var(--accent);margin-bottom:16px;}
   footer p{color:rgba(240,248,255,0.3);font-size:13px;}
+
+  /* COLOR PICKER MODAL */
+  .color-modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+  .color-modal-overlay.active{display:flex;}
+  .color-modal{background:var(--mid);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:36px;max-width:400px;width:90%;position:relative;}
+  .color-modal h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;}
+  .color-modal-product{font-size:13px;color:rgba(240,248,255,0.45);margin-bottom:24px;}
+  .color-options{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+  .color-opt{background:rgba(0,212,255,0.08);border:2px solid rgba(0,212,255,0.2);color:var(--white);padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .color-opt:hover{border-color:var(--accent);background:rgba(0,212,255,0.15);}
+  .color-opt.selected{border-color:var(--accent);background:rgba(0,212,255,0.2);color:var(--accent);font-weight:600;}
+  .color-modal-actions{display:flex;gap:12px;}
+  .color-confirm{flex:1;background:var(--accent);color:var(--deep);border:none;padding:14px;border-radius:8px;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;transition:all 0.3s;}
+  .color-confirm:hover{background:#fff;}
+  .color-confirm:disabled{background:rgba(0,212,255,0.3);cursor:not-allowed;}
+  .color-cancel{background:transparent;color:rgba(240,248,255,0.4);border:1px solid rgba(240,248,255,0.15);padding:14px 20px;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .color-cancel:hover{color:var(--white);border-color:rgba(240,248,255,0.4);}
+
   @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
   @media(max-width:640px){nav{padding:14px 20px;}.nav-badges{display:none;}.products{padding:60px 16px;}.stats{gap:24px;padding:32px 16px;}.hero-prev{left:-10px;}.hero-next{right:-10px;}}
 </style>
@@ -415,33 +433,81 @@
   function checkout(){if(cart.length===0){alert('Your cart is empty!');return;}alert('Thank you for your order! 🎉\nWe will contact you to complete payment.\nExpect delivery within 1-2 working days 🇬🇧');cart=[];updateCartUI();closeCart();}
   document.getElementById('cartOverlay').addEventListener('click',function(e){if(e.target===this)closeCart();});
 
-  // Stripe Buy Now
+  // Stripe Buy Now with colour picker
   const stripeClient = Stripe('pk_test_51TeEVf1WxwUqj3wSJKiSdwrDoi9GxPA');
-  async function buyNow(name, price, btn) {
-    btn.disabled = true;
-    btn.textContent = 'Loading...';
+  const productColors = {
+    'Ice Fan':         ['Grape Purple', 'Peach Pink', 'White'],
+    'Tri-Fold Ice Fan':['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
+    'High Speed Fan':  ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry']
+  };
+  let _buyPending = null;
+
+  function buyNow(name, price, btn) {
+    const colors = productColors[name] || [];
+    if (!colors.length) { startCheckout(name, price, null); return; }
+    _buyPending = {name, price};
+    document.getElementById('colorModalProduct').textContent = name + ' · £' + price.toFixed(2);
+    const opts = document.getElementById('colorOptions');
+    opts.innerHTML = colors.map(c =>
+      `<button class="color-opt" onclick="selectColor(this)">${c}</button>`
+    ).join('');
+    document.getElementById('colorConfirm').disabled = true;
+    document.getElementById('colorModal').classList.add('active');
+  }
+
+  function selectColor(el) {
+    document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('colorConfirm').disabled = false;
+  }
+
+  function closeColorModal() {
+    document.getElementById('colorModal').classList.remove('active');
+    _buyPending = null;
+  }
+
+  async function confirmColor() {
+    const selected = document.querySelector('.color-opt.selected');
+    if (!selected || !_buyPending) return;
+    const color = selected.textContent;
+    const {name, price} = _buyPending;
+    closeColorModal();
+    await startCheckout(name, price, color);
+  }
+
+  async function startCheckout(name, price, color) {
+    const btn = [...document.querySelectorAll('.buy-btn')].find(b => b.closest('.product-card') && b.onclick.toString().includes(name.replace(/'/g,"\\'")));
+    const displayName = color ? name + ' (' + color + ')' : name;
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({productName: name, price: price, quantity: 1})
+        body: JSON.stringify({productName: displayName, price: price, quantity: 1})
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('Payment error: ' + (data.error || 'Unknown error'));
-        btn.disabled = false;
-        btn.textContent = 'BUY NOW';
-      }
+      if (data.url) { window.location.href = data.url; }
+      else { alert('Payment error: ' + (data.error || 'Unknown error')); }
     } catch(e) {
       alert('Could not connect to payment server. Make sure the server is running.');
-      btn.disabled = false;
-      btn.textContent = 'BUY NOW';
     }
   }
 
+  document.getElementById('colorModal').addEventListener('click', function(e){ if(e.target===this) closeColorModal(); });
+
 </script>
+
+<!-- COLOR PICKER MODAL -->
+<div class="color-modal-overlay" id="colorModal">
+  <div class="color-modal">
+    <h3>CHOOSE YOUR COLOUR</h3>
+    <div class="color-modal-product" id="colorModalProduct"></div>
+    <div class="color-options" id="colorOptions"></div>
+    <div class="color-modal-actions">
+      <button class="color-cancel" onclick="closeColorModal()">Cancel</button>
+      <button class="color-confirm" id="colorConfirm" onclick="confirmColor()" disabled>PROCEED TO PAYMENT →</button>
+    </div>
+  </div>
+</div>
 
 <!-- AI CHAT WIDGET -->
 <style>
