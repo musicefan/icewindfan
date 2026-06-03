@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ice Wind Fan – UK's #1 Portable Ice Fan | Next Day Delivery</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
 <style>
   :root {--ice:#a8edea;--deep:#0a1628;--mid:#112240;--accent:#00d4ff;--white:#f0f8ff;--card:#0d1f3c;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -433,18 +432,23 @@
   function checkout(){if(cart.length===0){alert('Your cart is empty!');return;}alert('Thank you for your order! 🎉\nWe will contact you to complete payment.\nExpect delivery within 1-2 working days 🇬🇧');cart=[];updateCartUI();closeCart();}
   document.getElementById('cartOverlay').addEventListener('click',function(e){if(e.target===this)closeCart();});
 
-  // Stripe Buy Now with colour picker
-  const stripeClient = Stripe('pk_test_51TeEVf1WxwUqj3wSJKiSdwrDoi9GxPA');
+  // Stripe Payment Links — no server needed
+  // Create Payment Links in your Stripe Dashboard and paste the URLs below
+  // dashboard.stripe.com → Payment Links → + New
+  const paymentLinks = {
+    'Ice Fan':          'https://buy.stripe.com/REPLACE_WITH_ICE_FAN_LINK',
+    'Tri-Fold Ice Fan': 'https://buy.stripe.com/REPLACE_WITH_TRIFOLD_LINK',
+    'High Speed Fan':   'https://buy.stripe.com/REPLACE_WITH_HIGHSPEED_LINK'
+  };
   const productColors = {
-    'Ice Fan':         ['Grape Purple', 'Peach Pink', 'White'],
-    'Tri-Fold Ice Fan':['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
-    'High Speed Fan':  ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry']
+    'Ice Fan':          ['Grape Purple', 'Peach Pink', 'White'],
+    'Tri-Fold Ice Fan': ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
+    'High Speed Fan':   ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry']
   };
   let _buyPending = null;
 
   function buyNow(name, price, btn) {
     const colors = productColors[name] || [];
-    if (!colors.length) { startCheckout(name, price, null); return; }
     _buyPending = {name, price};
     document.getElementById('colorModalProduct').textContent = name + ' · £' + price.toFixed(2);
     const opts = document.getElementById('colorOptions');
@@ -466,30 +470,21 @@
     _buyPending = null;
   }
 
-  async function confirmColor() {
+  function confirmColor() {
     const selected = document.querySelector('.color-opt.selected');
     if (!selected || !_buyPending) return;
     const color = selected.textContent;
-    const {name, price} = _buyPending;
-    closeColorModal();
-    await startCheckout(name, price, color);
-  }
-
-  async function startCheckout(name, price, color) {
-    const btn = [...document.querySelectorAll('.buy-btn')].find(b => b.closest('.product-card') && b.onclick.toString().includes(name.replace(/'/g,"\\'")));
-    const displayName = color ? name + ' (' + color + ')' : name;
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({productName: displayName, price: price, quantity: 1})
-      });
-      const data = await res.json();
-      if (data.url) { window.location.href = data.url; }
-      else { alert('Payment error: ' + (data.error || 'Unknown error')); }
-    } catch(e) {
-      alert('Could not connect to payment server. Make sure the server is running.');
+    const {name} = _buyPending;
+    const baseUrl = paymentLinks[name];
+    if (!baseUrl || baseUrl.includes('REPLACE_WITH')) {
+      alert('Payment link not set up yet. Please add your Stripe Payment Link URL in the code.');
+      closeColorModal();
+      return;
     }
+    // Pass colour as a prefilled field via URL param
+    const url = baseUrl + '?prefilled_email=&metadata[colour]=' + encodeURIComponent(color);
+    closeColorModal();
+    window.location.href = url;
   }
 
   document.getElementById('colorModal').addEventListener('click', function(e){ if(e.target===this) closeColorModal(); });
