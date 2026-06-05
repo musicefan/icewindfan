@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IceWindFan — Summer 2025 Catalogue</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ice: #00d4ff;
+    --ice-light: #a8edea;
+    --deep: #0a1628;
+    --mid: #112240;
+    --card: #0d1f3c;
+    --white: #f0f8ff;
+    --gold: #c9a84c;
+  }
+
+  body {
+    background: #1a1a2e;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+  }
+
+  /* PAGE LAYOUT */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; page-break-after: always; }
+    .no-print { display: none; }
+  }
+
+  /* SNOWFLAKE DECORATION */
+  .sf {
+    position: absolute;
+    color: rgba(0, 212, 255, 0.06);
+    font-size: 200px;
+    font-family: sans-serif;
+    pointer-events: none;
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* ======================== PAGE 1 — COVER ======================== */
+  .cover {
+    background: linear-gradient(160deg, #040d1a 0%, #0a1628 40%, #0d2040 70%, #071020 100%);
+    min-height: 297mm;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .cover-top {
+    padding: 50px 50px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cover-logo-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--ice), #0099cc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: var(--deep);
+    font-weight: 900;
+    box-shadow: 0 0 30px rgba(0,212,255,0.4);
+  }
+
+  .cover-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .cover-logo-sub {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(240,248,255,0.4);
+    margin-top: 4px;
+  }
+
+  .cover-season {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--ice);
+    text-transform: uppercase;
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+
+  .cover-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 50px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cover-sf1 { top: -60px; left: -80px; font-size: 320px; }
+  .cover-sf2 { bottom: 80px; right: -100px; font-size: 280px; }
+  .cover-sf3 { top: 200px; left: 30px; font-size: 80px; opacity: 0.5; }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--ice);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .cover-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 88px;
+    line-height: 0.9;
+    letter-spacing: 6px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .cover-headline span {
+    color: var(--ice);
+    text-shadow: 0 0 60px rgba(0,212,255,0.5);
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ice), transparent);
+    margin: 28px auto;
+  }
+
+  .cover-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: rgba(240,248,255,0.7);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .cover-subtitle {
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: rgba(240,248,255,0.4);
+    text-transform: uppercase;
+  }
+
+  .cover-bottom {
+    padding: 36px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(0,212,255,0.1);
+  }
+
+  .cover-bottom-left {
+    font-size: 12px;
+    color: rgba(240,248,255,0.3);
+    letter-spacing: 2px;
+  }
+
+  .cover-bottom-right {
+    font-size: 12px;
+    color: rgba(240,248,255,0.3);
+    letter-spacing: 1px;
+    text-align: right;
+  }
+
+  .cover-glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* ======================== PRODUCT PAGES ======================== */
+  .product-page {
+    background: linear-gradient(150deg, #070f1e 0%, #0a1628 50%, #0c1a30 100%);
+    min-height: 297mm;
+    padding: 0;
+  }
+
+  .prod-header {
+    padding: 36px 50px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,212,255,0.08);
+  }
+
+  .prod-header-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: rgba(240,248,255,0.3);
+  }
+
+  .prod-header-page {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(240,248,255,0.2);
+  }
+
+  .prod-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: calc(297mm - 130px);
+  }
+
+  .prod-visual {
+    position: relative;
+    background: linear-gradient(135deg, #060e1c, #0d1f3c);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 40px;
+    border-right: 1px solid rgba(0,212,255,0.08);
+    overflow: hidden;
+  }
+
+  .prod-sf1 { top: -40px; left: -40px; font-size: 200px; }
+  .prod-sf2 { bottom: -60px; right: -50px; font-size: 180px; }
+
+  .prod-img-placeholder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+    border: 2px solid rgba(0,212,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .prod-img-icon {
+    font-size: 80px;
+    filter: drop-shadow(0 0 20px rgba(0,212,255,0.4));
+  }
+
+  .prod-price-tag {
+    background: var(--ice);
+    color: var(--deep);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 30px rgba(0,212,255,0.3);
+  }
+
+  .prod-badge {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--ice);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Colour swatches */
+  .swatches {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    position: relative;
+    z-index: 2;
+    justify-content: center;
+  }
+
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .swatch-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .swatch-label {
+    font-size: 9px;
+    color: rgba(240,248,255,0.4);
+    letter-spacing: 1px;
+    text-align: center;
+    max-width: 50px;
+    line-height: 1.2;
+  }
+
+  /* Product info */
+  .prod-info {
+    padding: 50px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .prod-number {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(0,212,255,0.5);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .prod-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 0.95;
+    letter-spacing: 4px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .prod-name span {
+    color: var(--ice);
+  }
+
+  .prod-tagline-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: rgba(240,248,255,0.45);
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .prod-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--ice);
+    margin-bottom: 24px;
+    opacity: 0.5;
+  }
+
+  .prod-desc {
+    font-size: 13px;
+    color: rgba(240,248,255,0.6);
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+
+  .features-title {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(0,212,255,0.6);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(240,248,255,0.75);
+  }
+
+  .feat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ice);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(0,212,255,0.6);
+  }
+
+  .prod-footer {
+    padding: 22px 50px;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .prod-footer-url {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(240,248,255,0.2);
+  }
+
+  .prod-footer-tag {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(0,212,255,0.4);
+  }
+
+  /* ======================== PAGE 5 — BACK COVER ======================== */
+  .back-cover {
+    background: linear-gradient(160deg, #040d1a 0%, #0a1628 40%, #0d2040 70%, #071020 100%);
+    min-height: 297mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .back-sf1 { top: -80px; left: -80px; font-size: 300px; }
+  .back-sf2 { bottom: -60px; right: -80px; font-size: 280px; }
+
+  .back-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 8px;
+    color: var(--white);
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-logo span { color: var(--ice); }
+
+  .back-tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(240,248,255,0.5);
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--ice);
+    margin: 0 auto 50px;
+    opacity: 0.4;
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-perks {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .back-perk {
+    text-align: center;
+  }
+
+  .back-perk-icon {
+    font-size: 28px;
+    color: var(--ice);
+    margin-bottom: 10px;
+    font-weight: 900;
+  }
+
+  .back-perk-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .back-perk-desc {
+    font-size: 11px;
+    color: rgba(240,248,255,0.35);
+    letter-spacing: 1px;
+  }
+
+  .back-contact {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 50px;
+  }
+
+  .back-contact-title {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(0,212,255,0.5);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .back-contact-url {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: var(--ice);
+    margin-bottom: 8px;
+    text-shadow: 0 0 30px rgba(0,212,255,0.3);
+  }
+
+  .back-contact-email {
+    font-size: 13px;
+    color: rgba(240,248,255,0.4);
+    letter-spacing: 2px;
+  }
+
+  .back-bottom {
+    position: relative;
+    z-index: 2;
+    font-size: 10px;
+    color: rgba(240,248,255,0.15);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .back-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* PRINT BUTTON */
+  .print-bar {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 12px;
+    z-index: 999;
+  }
+
+  .print-btn {
+    background: var(--ice);
+    color: var(--deep);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,212,255,0.4);
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: #fff; transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<!-- ======================== PAGE 1 — COVER ======================== -->
+<div class="page cover">
+  <span class="sf cover-sf1">❄</span>
+  <span class="sf cover-sf2">❄</span>
+  <span class="sf cover-sf3">❄</span>
+  <div class="cover-glow"></div>
+
+  <div class="cover-top">
+    <div class="cover-logo">
+      <div class="cover-logo-icon">❄</div>
+      <div>
+        <div class="cover-logo-text">ICE WIND FAN</div>
+        <div class="cover-logo-sub">ICEWINDFAN.CO.UK</div>
+      </div>
+    </div>
+    <div class="cover-season">Summer 2025 Collection</div>
+  </div>
+
+  <div class="cover-center">
+    <div class="cover-eyebrow">UK's #1 Portable Ice Cooling Fan</div>
+    <div class="cover-headline">BEAT THE<br><span>HEAT.</span></div>
+    <div class="cover-headline" style="font-size:60px;margin-top:6px;">STAY ICE COLD.</div>
+    <div class="cover-divider"></div>
+    <div class="cover-tagline">Your personal breeze, wherever life takes you.</div>
+    <div class="cover-subtitle">Ships from London, UK &nbsp;·&nbsp; Next Day Delivery</div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-bottom-left">icewindfan.co.uk</div>
+    <div class="cover-bottom-right">Summer 2025 &nbsp;·&nbsp; Product Catalogue</div>
+  </div>
+</div>
+
+
+<!-- ======================== PAGE 2 — ICE FAN ======================== -->
+<div class="page product-page">
+  <div class="prod-header">
+    <div class="prod-header-logo">❄ ICE WIND FAN</div>
+    <div class="prod-header-page">Product 01 / 03</div>
+  </div>
+
+  <div class="prod-body">
+    <div class="prod-visual">
+      <span class="sf prod-sf1">❄</span>
+      <span class="sf prod-sf2">❄</span>
+
+      <div class="prod-img-placeholder">
+        <div class="prod-img-icon">❄</div>
+      </div>
+
+      <div class="prod-price-tag">£19.99</div>
+      <div class="prod-badge">AVAILABLE NOW</div>
+
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#7b2d8b;"></div>
+          <div class="swatch-label">Grape Purple</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#f4a7b9;"></div>
+          <div class="swatch-label">Peach Pink</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#f0f8ff;border-color:rgba(0,212,255,0.3);"></div>
+          <div class="swatch-label">White</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-info">
+      <div class="prod-number">001 — Ice Fan</div>
+      <div class="prod-name">ICE<br><span>FAN</span></div>
+      <div class="prod-tagline-text">Compact cooling. Powerful results.</div>
+      <div class="prod-divider"></div>
+      <div class="prod-desc">Compact and powerful personal cooling fan with real ice compress technology. Perfect for commuting, office, travel and outdoor use. Small in size, big on performance.</div>
+      <div class="features-title">Key Features</div>
+      <ul class="features-list">
+        <li><span class="feat-dot"></span>100-Speed ultra-silent motor</li>
+        <li><span class="feat-dot"></span>Real ice compress cooling</li>
+        <li><span class="feat-dot"></span>Strong airflow technology</li>
+        <li><span class="feat-dot"></span>USB rechargeable</li>
+        <li><span class="feat-dot"></span>Foldable portable design</li>
+        <li><span class="feat-dot"></span>Next day UK delivery</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prod-footer">
+    <div class="prod-footer-url">icewindfan.co.uk</div>
+    <div class="prod-footer-tag">Ships from London · Next Day Delivery</div>
+  </div>
+</div>
+
+
+<!-- ======================== PAGE 3 — TRI-FOLD ICE FAN ======================== -->
+<div class="page product-page">
+  <div class="prod-header">
+    <div class="prod-header-logo">❄ ICE WIND FAN</div>
+    <div class="prod-header-page">Product 02 / 03</div>
+  </div>
+
+  <div class="prod-body">
+    <div class="prod-visual">
+      <span class="sf prod-sf1">❄</span>
+      <span class="sf prod-sf2">❄</span>
+
+      <div class="prod-img-placeholder">
+        <div class="prod-img-icon">❄</div>
+      </div>
+
+      <div class="prod-price-tag">£22.99</div>
+      <div class="prod-badge">BEST SELLER</div>
+
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-dot" style="background:linear-gradient(135deg,#2d6a4f,#f0f8ff);"></div>
+          <div class="swatch-label">Green & White</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#f4a7b9;"></div>
+          <div class="swatch-label">Peach Pink</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#7b2d8b;"></div>
+          <div class="swatch-label">Grape Purple</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#2d1b3d;border-color:rgba(255,255,255,0.2);"></div>
+          <div class="swatch-label">Blackberry</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-info">
+      <div class="prod-number">002 — Tri-Fold Ice Fan</div>
+      <div class="prod-name">TRI-FOLD<br><span>ICE FAN</span></div>
+      <div class="prod-tagline-text">Fold it. Cool it. Take it anywhere.</div>
+      <div class="prod-divider"></div>
+      <div class="prod-desc">The ultimate tri-fold foldable ice fan. Adjustable for any situation — handheld, desktop or neck worn. Cool comfort anytime anywhere.</div>
+      <div class="features-title">Key Features</div>
+      <ul class="features-list">
+        <li><span class="feat-dot"></span>100–199 Speed options</li>
+        <li><span class="feat-dot"></span>Tri-fold adjustable design</li>
+        <li><span class="feat-dot"></span>Powerful cooling strong airflow</li>
+        <li><span class="feat-dot"></span>Ultra-silent performance</li>
+        <li><span class="feat-dot"></span>Lightweight and portable</li>
+        <li><span class="feat-dot"></span>Next day UK delivery</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prod-footer">
+    <div class="prod-footer-url">icewindfan.co.uk</div>
+    <div class="prod-footer-tag">Ships from London · Next Day Delivery</div>
+  </div>
+</div>
+
+
+<!-- ======================== PAGE 4 — HIGH SPEED FAN ======================== -->
+<div class="page product-page">
+  <div class="prod-header">
+    <div class="prod-header-logo">❄ ICE WIND FAN</div>
+    <div class="prod-header-page">Product 03 / 03</div>
+  </div>
+
+  <div class="prod-body">
+    <div class="prod-visual">
+      <span class="sf prod-sf1">❄</span>
+      <span class="sf prod-sf2">❄</span>
+
+      <div class="prod-img-placeholder">
+        <div class="prod-img-icon">❄</div>
+      </div>
+
+      <div class="prod-price-tag">£21.99</div>
+      <div class="prod-badge">HIGH PERFORMANCE</div>
+
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-dot" style="background:linear-gradient(135deg,#2d6a4f,#f0f8ff);"></div>
+          <div class="swatch-label">Green & White</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#f4a7b9;"></div>
+          <div class="swatch-label">Peach Pink</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#7b2d8b;"></div>
+          <div class="swatch-label">Grape Purple</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#2d1b3d;border-color:rgba(255,255,255,0.2);"></div>
+          <div class="swatch-label">Blackberry</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prod-info">
+      <div class="prod-number">003 — High Speed Fan</div>
+      <div class="prod-name">HIGH<br><span>SPEED FAN</span></div>
+      <div class="prod-tagline-text">Maximum power. All-day cooling.</div>
+      <div class="prod-divider"></div>
+      <div class="prod-desc">Maximum airflow at 8m/s with 8-hour battery life. The most powerful portable fan for serious all-day cooling. Charge once, stay cool all day.</div>
+      <div class="features-title">Key Features</div>
+      <ul class="features-list">
+        <li><span class="feat-dot"></span>199-Speed settings</li>
+        <li><span class="feat-dot"></span>8m/s ultra-high wind speed</li>
+        <li><span class="feat-dot"></span>8-hour battery life</li>
+        <li><span class="feat-dot"></span>Smart LED display</li>
+        <li><span class="feat-dot"></span>Foldable compact design</li>
+        <li><span class="feat-dot"></span>Next day UK delivery</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prod-footer">
+    <div class="prod-footer-url">icewindfan.co.uk</div>
+    <div class="prod-footer-tag">Ships from London · Next Day Delivery</div>
+  </div>
+</div>
+
+
+<!-- ======================== PAGE 5 — BACK COVER ======================== -->
+<div class="page back-cover">
+  <span class="sf back-sf1">❄</span>
+  <span class="sf back-sf2">❄</span>
+  <div class="back-glow"></div>
+
+  <div class="back-logo">❄ <span>ICE</span> WIND FAN</div>
+  <div class="back-tagline">Beat the Heat. Stay Ice Cold.</div>
+  <div class="back-divider"></div>
+
+  <div class="back-perks">
+    <div class="back-perk">
+      <div class="back-perk-icon">→</div>
+      <div class="back-perk-title">Next Day Delivery</div>
+      <div class="back-perk-desc">Order before 3pm</div>
+    </div>
+    <div class="back-perk">
+      <div class="back-perk-icon">GB</div>
+      <div class="back-perk-title">Ships from London</div>
+      <div class="back-perk-desc">UK stock always ready</div>
+    </div>
+    <div class="back-perk">
+      <div class="back-perk-icon">↺</div>
+      <div class="back-perk-title">30-Day Returns</div>
+      <div class="back-perk-desc">Hassle-free returns</div>
+    </div>
+    <div class="back-perk">
+      <div class="back-perk-icon">SSL</div>
+      <div class="back-perk-title">Secure Payment</div>
+      <div class="back-perk-desc">SSL encrypted checkout</div>
+    </div>
+  </div>
+
+  <div class="back-contact">
+    <div class="back-contact-title">Shop Online</div>
+    <div class="back-contact-url">ICEWINDFAN.CO.UK</div>
+    <div class="back-contact-email">icewindfan@gmail.com</div>
+  </div>
+
+  <div class="back-bottom">© 2025 IceWindFan.co.uk &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; London, UK</div>
+</div>
+
+
+<!-- PRINT BUTTON -->
+<div class="print-bar no-print">
+  <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+</body>
+</html>
