@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Product Detail — Icewind Fan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ice:#a8edea;--deep:#0a1628;--mid:#112240;--accent:#00d4ff;--white:#f0f8ff;--card:#0d1f3c;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--deep);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;}
+
+  /* NAV */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(10,22,40,0.95);border-bottom:1px solid rgba(0,212,255,0.1);position:sticky;top:0;z-index:10;}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);text-decoration:none;}
+  .back-btn{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(0,212,255,0.35);color:var(--accent);padding:9px 20px;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+  .back-btn:hover{background:rgba(0,212,255,0.1);border-color:var(--accent);}
+  .back-arrow{font-size:18px;line-height:1;}
+
+  /* LAYOUT */
+  .page{max-width:1100px;margin:0 auto;padding:60px 40px;}
+  .product-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+  @media(max-width:780px){.product-layout{grid-template-columns:1fr;gap:40px;}.page{padding:40px 20px;}}
+
+  /* GALLERY */
+  .gallery{position:relative;}
+  .main-image-wrap{position:relative;border-radius:14px;overflow:hidden;background:#060f1e;border:1px solid rgba(0,212,255,0.15);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;touch-action:pan-y;}
+  .main-image-wrap img{width:100%;height:100%;object-fit:contain;display:block;transition:opacity 0.25s;pointer-events:none;user-select:none;}
+  .caption{text-align:center;font-size:13px;color:rgba(240,248,255,0.5);margin-top:12px;letter-spacing:1px;min-height:20px;}
+  .gallery-nav{display:flex;gap:12px;justify-content:center;margin-top:8px;}
+  .gallery-btn{background:rgba(0,212,255,0.15);border:2px solid rgba(0,212,255,0.4);color:var(--accent);width:44px;height:44px;border-radius:50%;font-size:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;}
+  .gallery-btn:hover{background:var(--accent);color:var(--deep);}
+  .thumbnails{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;justify-content:center;}
+  .thumb{width:72px;height:72px;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid rgba(0,212,255,0.15);transition:all 0.2s;flex-shrink:0;background:#060f1e;}
+  .thumb img{width:100%;height:100%;object-fit:contain;pointer-events:none;}
+  .thumb.active,.thumb:hover{border-color:var(--accent);transform:scale(1.05);}
+  .image-counter{position:absolute;top:14px;right:14px;background:rgba(10,22,40,0.7);border:1px solid rgba(0,212,255,0.2);color:var(--accent);font-size:12px;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px);}
+
+  /* INFO */
+  .product-info{display:flex;flex-direction:column;gap:24px;}
+  .product-name{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:3px;line-height:1;color:var(--white);}
+  .product-tagline{font-size:15px;color:rgba(240,248,255,0.6);line-height:1.7;}
+  .features-title{font-size:11px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;}
+  .features{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .features li{font-size:14px;color:rgba(240,248,255,0.75);display:flex;align-items:center;gap:10px;}
+  .features li::before{content:'✦';color:var(--accent);font-size:10px;flex-shrink:0;}
+  .price{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:2px;color:var(--accent);}
+  .price-sub{font-size:12px;color:rgba(240,248,255,0.4);letter-spacing:1px;margin-top:2px;}
+  .divider{border:none;border-top:1px solid rgba(0,212,255,0.1);}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .add-btn{flex:1;min-width:140px;background:var(--accent);color:var(--deep);border:none;padding:16px 24px;border-radius:6px;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;transition:all 0.3s;}
+  .add-btn:hover{background:#1af0ff;transform:translateY(-2px);}
+  .buy-btn{flex:1;min-width:140px;background:transparent;color:var(--accent);border:2px solid var(--accent);padding:16px 24px;border-radius:6px;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;transition:all 0.3s;}
+  .buy-btn:hover{background:rgba(0,212,255,0.1);}
+  .uk-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:rgba(240,248,255,0.6);font-size:12px;padding:6px 14px;border-radius:20px;letter-spacing:1px;}
+  .error-msg{text-align:center;padding:80px 20px;color:rgba(240,248,255,0.4);font-size:16px;}
+
+  /* COLOUR MODAL */
+  .color-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+  .color-modal-overlay.active{display:flex;}
+  .color-modal{background:var(--card);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:36px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+  .color-modal h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--accent);margin-bottom:6px;}
+  .color-modal-product{font-size:13px;color:rgba(240,248,255,0.45);margin-bottom:24px;}
+  .color-options{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+  .color-opt{background:rgba(0,212,255,0.08);border:2px solid rgba(0,212,255,0.2);color:var(--white);padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .color-opt:hover{border-color:rgba(0,212,255,0.5);}
+  .color-opt.selected{border-color:var(--accent);background:rgba(0,212,255,0.15);color:var(--accent);}
+  .color-modal-actions{display:flex;gap:10px;}
+  .color-confirm{flex:1;background:var(--accent);color:var(--deep);border:none;padding:14px;border-radius:8px;font-weight:700;font-size:15px;letter-spacing:1px;cursor:pointer;transition:all 0.3s;}
+  .color-confirm:disabled{background:rgba(0,212,255,0.3);cursor:not-allowed;}
+  .color-confirm:not(:disabled):hover{background:#1af0ff;}
+  .color-cancel{background:transparent;color:rgba(240,248,255,0.4);border:1px solid rgba(240,248,255,0.15);padding:14px 20px;border-radius:8px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .color-cancel:hover{border-color:rgba(240,248,255,0.3);color:var(--white);}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--card);border:1px solid rgba(0,212,255,0.3);color:var(--white);padding:14px 22px;border-radius:10px;font-size:14px;font-weight:600;z-index:999;transform:translateY(80px);opacity:0;transition:all 0.3s;box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+  .toast.show{transform:translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">ICEWIND FAN</a>
+  <a class="back-btn" href="index.html"><span class="back-arrow">&#8592;</span> Back to Shop</a>
+</nav>
+
+<div class="page">
+  <div id="content" class="product-layout">
+    <p class="error-msg">Loading product…</p>
+  </div>
+</div>
+
+<!-- Colour picker modal -->
+<div class="color-modal-overlay" id="colorModal">
+  <div class="color-modal">
+    <h3>CHOOSE COLOUR</h3>
+    <div class="color-modal-product" id="colorModalProduct"></div>
+    <div class="color-options" id="colorOptions"></div>
+    <div class="color-modal-actions">
+      <button class="color-cancel" onclick="closeColorModal()">Cancel</button>
+      <button class="color-confirm" id="colorConfirm" disabled onclick="confirmColor()">CONTINUE TO PAYMENT</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const p = (() => {
+    try { return JSON.parse(sessionStorage.getItem('icewindProduct')); } catch(e) { return null; }
+  })();
+
+  const paymentLinks = {
+    'Ice Fan':          'https://buy.stripe.com/9B6eV6fZK2FXbQo6Zh24000',
+    'Tri-Fold Ice Fan': 'https://buy.stripe.com/eVq9AMfZKbct6w40AT24001',
+    'High Speed Fan':   'https://buy.stripe.com/dRmfZa5l6dkBbQobfx24002'
+  };
+  const productColors = {
+    'Ice Fan':          ['Grape Purple', 'Peach Pink', 'White'],
+    'Tri-Fold Ice Fan': ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
+    'High Speed Fan':   ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry']
+  };
+
+  if (!p) {
+    document.getElementById('content').innerHTML = '<p class="error-msg">Product not found. <a href="index.html" style="color:var(--accent)">Return to shop</a></p>';
+  } else {
+    let idx = 0;
+
+    function render() {
+      document.getElementById('content').innerHTML = `
+        <div class="gallery">
+          <div class="main-image-wrap" id="imageWrap">
+            <img id="mainImg" src="${p.images[0]}" alt="${p.name}">
+            <div class="image-counter"><span id="imgNum">1</span> / ${p.images.length}</div>
+          </div>
+          <div class="caption" id="capText">${p.captions[0]}</div>
+          <div class="gallery-nav">
+            <button class="gallery-btn" onclick="go(-1)">&#8249;</button>
+            <button class="gallery-btn" onclick="go(1)">&#8250;</button>
+          </div>
+          <div class="thumbnails" id="thumbs"></div>
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-tagline">${p.tagline}</div>
+          </div>
+          <hr class="divider">
+          <div>
+            <div class="features-title">Key Features</div>
+            <ul class="features">
+              ${p.features.map(f=>`<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+          <hr class="divider">
+          <div>
+            <div class="price">${p.price}</div>
+            <div class="price-sub">Free next day UK delivery</div>
+          </div>
+          <span class="uk-badge">&#127468;&#127463; UK Stock · Ships from London</span>
+          <div class="actions">
+            <button class="add-btn" onclick="addCart()">ADD TO CART</button>
+            <button class="buy-btn" onclick="openColorModal()">BUY NOW</button>
+          </div>
+        </div>
+      `;
+      buildThumbs();
+      initSwipe();
+    }
+
+    function buildThumbs() {
+      const wrap = document.getElementById('thumbs');
+      if (!wrap) return;
+      wrap.innerHTML = p.images.map((src, i) =>
+        `<div class="thumb${i===0?' active':''}" onclick="goTo(${i})"><img src="${src}" alt="${p.captions[i]}"></div>`
+      ).join('');
+    }
+
+    function goTo(i) {
+      idx = i;
+      const img = document.getElementById('mainImg');
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = p.images[idx];
+        img.style.opacity = '1';
+      }, 150);
+      document.getElementById('capText').textContent = p.captions[idx];
+      document.getElementById('imgNum').textContent = idx + 1;
+      document.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('active',j===idx));
+    }
+
+    function go(dir) {
+      goTo((idx + dir + p.images.length) % p.images.length);
+    }
+
+    function initSwipe() {
+      const wrap = document.getElementById('imageWrap');
+      if (!wrap) return;
+      let startX = 0, startY = 0, dragging = false;
+      wrap.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        dragging = true;
+      }, {passive:true});
+      wrap.addEventListener('touchend', e => {
+        if (!dragging) return;
+        dragging = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          go(dx < 0 ? 1 : -1);
+        }
+      }, {passive:true});
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'), 2500);
+    }
+
+    function addCart() {
+      const cart = JSON.parse(localStorage.getItem('icewindCart')||'[]');
+      const existing = cart.find(i=>i.name===p.cartName);
+      if (existing) existing.qty++;
+      else cart.push({name:p.cartName, price:p.cartPrice, qty:1});
+      localStorage.setItem('icewindCart', JSON.stringify(cart));
+      showToast(`${p.cartName} added to cart!`);
+    }
+
+    function openColorModal() {
+      const colors = productColors[p.cartName] || [];
+      document.getElementById('colorModalProduct').textContent = p.name + ' · ' + p.price;
+      const opts = document.getElementById('colorOptions');
+      opts.innerHTML = colors.map(c =>
+        `<button class="color-opt" onclick="selectColor(this)">${c}</button>`
+      ).join('');
+      document.getElementById('colorConfirm').disabled = true;
+      document.getElementById('colorModal').classList.add('active');
+    }
+
+    function selectColor(el) {
+      document.querySelectorAll('.color-opt').forEach(b=>b.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('colorConfirm').disabled = false;
+    }
+
+    function closeColorModal() {
+      document.getElementById('colorModal').classList.remove('active');
+    }
+
+    function confirmColor() {
+      const selected = document.querySelector('.color-opt.selected');
+      if (!selected) return;
+      const color = selected.textContent;
+      const baseUrl = paymentLinks[p.cartName];
+      if (!baseUrl) {
+        alert('Payment link not set up yet.');
+        closeColorModal();
+        return;
+      }
+      const url = baseUrl + '?prefilled_email=&metadata[colour]=' + encodeURIComponent(color);
+      closeColorModal();
+      window.location.href = url;
+    }
+
+    document.getElementById('colorModal').addEventListener('click', function(e){
+      if (e.target === this) closeColorModal();
+    });
+
+    render();
+  }
+</script>
+</body>
+</html>

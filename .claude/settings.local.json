@@ -11,7 +11,19 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "Bash(git pull *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "mcp__Claude_Preview__preview_start",
+      "Skill(claude-api)",
+      "Skill(claude-api:*)",
+      "Bash(npm install *)",
+      "Read(//Users/mac/Desktop/**)",
+      "Bash(ruby --version)",
+      "Bash(python3 -)",
+      "Bash(chmod 644 /Users/mac/Desktop/icewindfan/index.html /Users/mac/Desktop/icewindfan/product.html)",
+      "Bash(xattr -l /Users/mac/Desktop/icewindfan/index.html)",
+      "Bash(awk -F: '$1 > 446')",
+      "Bash(find /Users/mac -name \"Untitled*10*\" -type d 2>/dev/null | head -5)",
+      "Bash(base64 -i \"/Users/mac/Desktop/untitled folder 10/5c710f8e-3cb7-4fff-905b-4816379ea152.png\" | tr -d '\\\\n' > /tmp/hero_img_b64.txt *)"
     ]
   }
 }

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "IceWindFan Preview",
+      "runtimeExecutable": "/usr/bin/ruby",
+      "runtimeArgs": ["-run", "-e", "httpd", "--", "-p", "3000", "/Users/mac/Desktop/icewindfan"],
+      "port": 3000
+    }
+  ]
+}
