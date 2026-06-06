@@ -68,6 +68,7 @@
     <span class="emoji">🎉</span>
     <h1>Order Confirmed!</h1>
     <p class="subtitle">Thank you for your order. You'll receive a confirmation email shortly.</p>
+    <p id="orderNumDisplay" class="detail" style="font-size:15px;color:var(--accent);font-weight:600;letter-spacing:1px;margin-bottom:4px;"></p>
     <p class="detail">Orders ship next day from London &nbsp;🇬🇧</p>
 
     <hr class="divider">
@@ -101,6 +102,13 @@
 </footer>
 
 <script>
+  // Show order number if present in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderNum = urlParams.get('order');
+  if (orderNum) {
+    document.getElementById('orderNumDisplay').textContent = 'Order Number: ' + orderNum;
+  }
+
   // Check if more cart items need to be paid for
   const paymentLinks = {
     'Ice Fan':          'https://buy.stripe.com/9B6eV6fZK2FXbQo6Zh24000',

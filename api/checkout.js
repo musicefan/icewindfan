@@ -55,7 +55,7 @@ export default async function handler(req, res) {
           order_summary: orderSummary,
         },
       },
-      success_url: "https://icewindfan.co.uk/thank-you.html",
+      success_url: `https://icewindfan.co.uk/thank-you.html?order=${orderNum}`,
       cancel_url: "https://icewindfan.co.uk/index.html",
     });
 
