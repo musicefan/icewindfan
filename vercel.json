@@ -1,23 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/checkout.js": {
+      "memory": 1024,
+      "maxDuration": 10
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/(.*\\.(html|css|js|svg|jpg|png|ico|json))",
-      "dest": "server.js"
-    },
-    {
-      "src": "/",
-      "dest": "server.js"
-    }
-  ]
+  }
 }
