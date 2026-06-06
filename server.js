@@ -103,30 +103,37 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-// Stripe checkout endpoint
+// Stripe checkout endpoint — accepts full cart
 app.post("/api/checkout", async (req, res) => {
-  const { productName, price, quantity = 1 } = req.body;
+  const { cart } = req.body; // array of {name, price, qty, colour}
+
+  if (!cart || !Array.isArray(cart) || cart.length === 0) {
+    return res.status(400).json({ error: "Cart is empty" });
+  }
+
+  const line_items = cart.map(item => ({
+    price_data: {
+      currency: "gbp",
+      product_data: {
+        name: item.name,
+        description: item.colour ? `Colour: ${item.colour} — IceWindFan UK` : "IceWindFan — UK's #1 Portable Ice Fan",
+      },
+      unit_amount: Math.round(item.price * 100),
+    },
+    quantity: item.qty || 1,
+  }));
+
+  const origin = req.headers.origin || "https://icewindfan.co.uk";
 
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "gbp",
-            product_data: {
-              name: productName,
-              description: "IceWindFan — UK's #1 Portable Ice Fan",
-            },
-            unit_amount: Math.round(price * 100), // convert to pence
-          },
-          quantity,
-        },
-      ],
+      line_items,
       mode: "payment",
+      allow_promotion_codes: true,
       shipping_address_collection: { allowed_countries: ["GB"] },
-      success_url: `${req.headers.origin || "http://localhost:" + PORT}/success.html`,
-      cancel_url: `${req.headers.origin || "http://localhost:" + PORT}/index.html`,
+      success_url: `${origin}/thank-you.html`,
+      cancel_url: `${origin}/index.html`,
     });
 
     res.json({ url: session.url });

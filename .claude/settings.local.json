@@ -23,7 +23,19 @@
       "Bash(xattr -l /Users/mac/Desktop/icewindfan/index.html)",
       "Bash(awk -F: '$1 > 446')",
       "Bash(find /Users/mac -name \"Untitled*10*\" -type d 2>/dev/null | head -5)",
-      "Bash(base64 -i \"/Users/mac/Desktop/untitled folder 10/5c710f8e-3cb7-4fff-905b-4816379ea152.png\" | tr -d '\\\\n' > /tmp/hero_img_b64.txt *)"
+      "Bash(base64 -i \"/Users/mac/Desktop/untitled folder 10/5c710f8e-3cb7-4fff-905b-4816379ea152.png\" | tr -d '\\\\n' > /tmp/hero_img_b64.txt *)",
+      "Bash(python3 -c \"import cairosvg\")",
+      "Bash(qlmanage -t -s 800 -o /tmp/ \"/Users/mac/Desktop/icewindfan/logo.svg\")",
+      "Bash(sips -s format jpeg -s formatOptions 95 /tmp/logo.svg.png --out /Users/mac/Desktop/icewindfan/logo.jpg)",
+      "Bash(sips -c 380 800 /Users/mac/Desktop/icewindfan/logo.jpg --out /Users/mac/Desktop/icewindfan/logo.jpg)",
+      "Bash(sips -z 280 800 /tmp/logo.svg.png --out /tmp/logo_cropped.png)",
+      "Bash(sips -s format jpeg -s formatOptions 95 /tmp/logo_cropped.png --out /Users/mac/Desktop/icewindfan/logo.jpg)",
+      "Bash(qlmanage -t -s 400 -o /tmp/ \"/Users/mac/Desktop/icewindfan/logo.svg\")",
+      "Bash(sips -g pixelHeight -g pixelWidth /tmp/logo.svg.png)",
+      "Bash(sips -s format jpeg -s formatOptions 95 /tmp/logo_cropped2.png --out /Users/mac/Desktop/icewindfan/logo.jpg)",
+      "Bash(qlmanage -t -s 200 -o /tmp/ /tmp/icon.svg)",
+      "Bash(python3 -c ' *)",
+      "Bash(sips -s format jpeg -s formatOptions 95 /tmp/icon.svg.png --out /Users/mac/Desktop/icewindfan/icon.jpg)"
     ]
   }
 }
