@@ -13,6 +13,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Cart is empty" });
   }
 
+  // Generate short order number
+  const orderNum = 'IWF-' + Date.now().toString().slice(-6);
+
   const line_items = cart.map(item => ({
     price_data: {
       currency: "gbp",
@@ -27,6 +30,9 @@ export default async function handler(req, res) {
     quantity: item.qty || 1,
   }));
 
+  // Build order summary for Stripe description
+  const orderSummary = cart.map(item => `${item.name} x${item.qty || 1}${item.colour ? ' ('+item.colour+')' : ''}`).join(', ');
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -38,6 +44,17 @@ export default async function handler(req, res) {
       phone_number_collection: { enabled: true },
       consent_collection: { terms_of_service: "none" },
       invoice_creation: { enabled: true },
+      metadata: {
+        order_number: orderNum,
+        order_summary: orderSummary,
+      },
+      payment_intent_data: {
+        description: `Order ${orderNum}: ${orderSummary}`,
+        metadata: {
+          order_number: orderNum,
+          order_summary: orderSummary,
+        },
+      },
       success_url: "https://icewindfan.co.uk/thank-you.html",
       cancel_url: "https://icewindfan.co.uk/index.html",
     });
