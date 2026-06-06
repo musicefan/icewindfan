@@ -33,7 +33,9 @@ export default async function handler(req, res) {
       line_items,
       mode: "payment",
       allow_promotion_codes: true,
+      customer_creation: "always",
       shipping_address_collection: { allowed_countries: ["GB"] },
+      phone_number_collection: { enabled: true },
       success_url: "https://icewindfan.co.uk/thank-you.html",
       cancel_url: "https://icewindfan.co.uk/index.html",
     });
