@@ -75,5 +75,39 @@
   <div class="footer-copy">&copy; 2026 Ice Wind Fan. All rights reserved.</div>
 </footer>
 
+<script>
+  // Check if more cart items need to be paid for
+  const paymentLinks = {
+    'Ice Fan':          'https://buy.stripe.com/9B6eV6fZK2FXbQo6Zh24000',
+    'Tri-Fold Ice Fan': 'https://buy.stripe.com/eVq9AMfZKbct6w40AT24001',
+    'High Speed Fan':   'https://buy.stripe.com/dRmfZa5l6dkBbQobfx24002'
+  };
+  const queue = JSON.parse(sessionStorage.getItem('cartQueue')||'[]');
+  const idx = parseInt(sessionStorage.getItem('cartQueueIdx')||'0');
+  if(idx < queue.length){
+    // More items remaining — show a "Pay for next item" button
+    const next = queue[idx];
+    const banner = document.createElement('div');
+    banner.style.cssText='background:#112240;border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:20px 28px;margin-top:24px;text-align:center;';
+    banner.innerHTML=`<p style="color:rgba(240,248,255,0.7);font-size:14px;margin-bottom:12px;">You have <strong style="color:#00d4ff">${queue.length - idx} more item(s)</strong> in your cart to pay for.</p>
+    <button onclick="payNext()" style="background:#00d4ff;color:#0a1628;border:none;padding:12px 28px;border-radius:6px;font-weight:700;font-size:14px;letter-spacing:1px;cursor:pointer;">PAY FOR ${next.name.toUpperCase()} →</button>`;
+    document.querySelector('.card').appendChild(banner);
+  } else {
+    // All done — clear cart
+    sessionStorage.removeItem('cartQueue');
+    sessionStorage.removeItem('cartQueueIdx');
+    localStorage.removeItem('icewindCart');
+  }
+
+  function payNext(){
+    const queue = JSON.parse(sessionStorage.getItem('cartQueue')||'[]');
+    const idx = parseInt(sessionStorage.getItem('cartQueueIdx')||'0');
+    if(idx >= queue.length) return;
+    const item = queue[idx];
+    sessionStorage.setItem('cartQueueIdx', String(idx+1));
+    const url = paymentLinks[item.name] + '?prefilled_email=&metadata[colour]=' + encodeURIComponent(item.colour||'');
+    window.location.href = url;
+  }
+</script>
 </body>
 </html>
