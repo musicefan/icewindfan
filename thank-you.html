@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order Confirmed — Ice Wind Fan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#00d4ff;--deep:#0a1628;--mid:#112240;--white:#f0f8ff;--card:#0d1f3c;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--deep);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+  nav{display:flex;align-items:center;justify-content:center;padding:18px 40px;background:rgba(10,22,40,0.95);border-bottom:1px solid rgba(0,212,255,0.1);}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);text-decoration:none;}
+  .main{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;}
+  .card{background:var(--card);border:1px solid rgba(0,212,255,0.2);border-radius:20px;padding:60px 48px;max-width:560px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+  .emoji{font-size:72px;margin-bottom:24px;display:block;}
+  h1{font-family:'Bebas Neue',sans-serif;font-size:46px;letter-spacing:3px;color:var(--accent);margin-bottom:16px;line-height:1;}
+  .subtitle{font-size:17px;color:rgba(240,248,255,0.75);line-height:1.7;margin-bottom:12px;}
+  .detail{font-size:14px;color:rgba(240,248,255,0.45);line-height:1.7;margin-bottom:40px;}
+  .divider{border:none;border-top:1px solid rgba(0,212,255,0.1);margin:32px 0;}
+  .steps{display:flex;flex-direction:column;gap:14px;margin-bottom:40px;text-align:left;}
+  .step{display:flex;align-items:flex-start;gap:14px;}
+  .step-icon{width:36px;height:36px;border-radius:50%;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+  .step-text{font-size:14px;color:rgba(240,248,255,0.65);line-height:1.6;padding-top:6px;}
+  .home-btn{display:inline-block;background:var(--accent);color:var(--deep);padding:16px 40px;border-radius:8px;font-weight:700;font-size:15px;letter-spacing:2px;text-decoration:none;text-transform:uppercase;transition:all 0.3s;}
+  .home-btn:hover{background:#1af0ff;transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,212,255,0.3);}
+  .site-footer{background:#060f1e;border-top:1px solid rgba(0,212,255,0.1);padding:28px 40px;text-align:center;}
+  .footer-links{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;}
+  .footer-links a{color:rgba(240,248,255,0.5);font-size:13px;letter-spacing:1px;text-decoration:none;}
+  .footer-links a:hover{color:var(--accent);}
+  .footer-copy{color:rgba(240,248,255,0.25);font-size:12px;letter-spacing:1px;}
+  @media(max-width:560px){.card{padding:40px 24px;}.emoji{font-size:56px;}h1{font-size:36px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">ICEWIND FAN</a>
+</nav>
+
+<div class="main">
+  <div class="card">
+    <span class="emoji">🎉</span>
+    <h1>Order Confirmed!</h1>
+    <p class="subtitle">Thank you for your order. You'll receive a confirmation email shortly.</p>
+    <p class="detail">Orders ship next day from London &nbsp;🇬🇧</p>
+
+    <hr class="divider">
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">✉️</div>
+        <div class="step-text"><strong style="color:var(--white)">Confirmation email</strong><br>Check your inbox for your order receipt from Stripe.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">📦</div>
+        <div class="step-text"><strong style="color:var(--white)">Dispatched next day</strong><br>Your fan will be packed and shipped the next working day.</div>
+      </div>
+      <div class="step">
+        <div class="step-icon">🚚</div>
+        <div class="step-text"><strong style="color:var(--white)">Delivered in 1–3 days</strong><br>Tracked UK delivery straight to your door.</div>
+      </div>
+    </div>
+
+    <a class="home-btn" href="index.html">Back to Home</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="returns.html">Returns Policy</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms &amp; Conditions</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 Ice Wind Fan. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
