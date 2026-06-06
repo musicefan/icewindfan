@@ -36,6 +36,8 @@ export default async function handler(req, res) {
       customer_creation: "always",
       shipping_address_collection: { allowed_countries: ["GB"] },
       phone_number_collection: { enabled: true },
+      consent_collection: { terms_of_service: "none" },
+      invoice_creation: { enabled: true },
       success_url: "https://icewindfan.co.uk/thank-you.html",
       cancel_url: "https://icewindfan.co.uk/index.html",
     });
