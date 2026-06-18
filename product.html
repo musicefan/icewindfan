@@ -144,7 +144,8 @@
   const productColors = {
     'Ice Fan':          ['Grape Purple', 'Peach Pink', 'White'],
     'Tri-Fold Ice Fan': ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
-    'High Speed Fan':   ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry']
+    'High Speed Fan':   ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
+    'Foldable Ice Fan': ['Black', 'White', 'Pink']
   };
 
   if (!p) {
@@ -185,8 +186,8 @@
           </div>
           <span class="uk-badge">&#127468;&#127463; UK Stock · Ships from London</span>
           <div class="actions">
-            <button class="add-btn" onclick="addCart()">ADD TO CART</button>
-            <button class="buy-btn" onclick="openColorModal()">BUY NOW</button>
+            <button class="add-btn" onclick="openColorModal('cart')">ADD TO CART</button>
+            ${paymentLinks[p.cartName] ? `<button class="buy-btn" onclick="openColorModal('buy')">BUY NOW</button>` : ``}
           </div>
         </div>
       `;
@@ -246,18 +247,22 @@
       setTimeout(()=>t.classList.remove('show'), 2500);
     }
 
-    function addCart() {
+    let _modalMode = 'cart'; // 'cart' or 'buy'
+
+    function addCart(color) {
       const cart = JSON.parse(localStorage.getItem('icewindCart')||'[]');
-      const existing = cart.find(i=>i.name===p.cartName);
+      const existing = cart.find(i=>i.name===p.cartName && i.colour===color);
       if (existing) existing.qty++;
-      else cart.push({name:p.cartName, price:p.cartPrice, qty:1});
+      else cart.push({name:p.cartName, price:p.cartPrice, qty:1, colour:color});
       localStorage.setItem('icewindCart', JSON.stringify(cart));
-      showToast(`${p.cartName} added to cart!`);
+      showToast(`${p.cartName} (${color}) added to cart!`);
     }
 
-    function openColorModal() {
+    function openColorModal(mode) {
+      _modalMode = mode || 'cart';
       const colors = productColors[p.cartName] || [];
       document.getElementById('colorModalProduct').textContent = p.name + ' · ' + p.price;
+      document.getElementById('colorConfirm').textContent = _modalMode === 'buy' ? 'CONTINUE TO PAYMENT' : 'ADD TO CART';
       const opts = document.getElementById('colorOptions');
       opts.innerHTML = colors.map(c =>
         `<button class="color-opt" onclick="selectColor(this)">${c}</button>`
@@ -280,6 +285,11 @@
       const selected = document.querySelector('.color-opt.selected');
       if (!selected) return;
       const color = selected.textContent;
+      if (_modalMode === 'cart') {
+        addCart(color);
+        closeColorModal();
+        return;
+      }
       const baseUrl = paymentLinks[p.cartName];
       if (!baseUrl) {
         alert('Payment link not set up yet.');

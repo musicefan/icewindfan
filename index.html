@@ -963,7 +963,7 @@
   for(let i=0;i<25;i++){const s=document.createElement('div');s.className='snowflake';s.textContent=['❄','❅','❆','✦'][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+'vw';s.style.animationDuration=(8+Math.random()*12)+'s';s.style.animationDelay=(Math.random()*10)+'s';s.style.fontSize=(10+Math.random()*16)+'px';sf.appendChild(s);}
 
   // CART
-  let cart=[];
+  let cart=JSON.parse(localStorage.getItem('icewindCart')||'[]');
   function addToCart(name,price){
     // Ask for colour first, then add to cart
     const colors=productColors[name]||[];
@@ -980,6 +980,7 @@
   function changeQty(name,colour,delta){const e=cart.find(i=>i.name===name&&i.colour===colour);if(!e)return;e.qty+=delta;if(e.qty<=0)cart=cart.filter(i=>!(i.name===name&&i.colour===colour));updateCartUI();}
   function removeFromCart(name,colour){cart=cart.filter(i=>!(i.name===name&&i.colour===colour));updateCartUI();}
   function updateCartUI(){
+    localStorage.setItem('icewindCart', JSON.stringify(cart));
     const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
     const count=cart.reduce((s,i)=>s+i.qty,0);
     const ce=document.getElementById('cartCount');
@@ -1011,6 +1012,7 @@
   }
   function openCart(){document.getElementById('cartOverlay').classList.add('active');}
   function closeCart(){document.getElementById('cartOverlay').classList.remove('active');}
+  updateCartUI(); // reflect any saved cart (e.g. items added from the product page) on load
 
 
   async function cartCheckout(){
