@@ -89,6 +89,9 @@
   .product-card.featured{border-color:rgba(0,212,255,0.4);box-shadow:0 0 40px rgba(0,212,255,0.1);}
   .featured-badge{position:absolute;top:16px;right:16px;background:var(--accent);color:var(--deep);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;z-index:2;}
   .uk-stock-badge{position:absolute;top:8px;left:16px;background:rgba(0,180,80,0.2);border:1px solid rgba(0,180,80,0.4);color:#00c864;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;}
+  .soldout-badge{position:absolute;top:8px;left:16px;background:rgba(255,71,87,0.18);border:1px solid rgba(255,71,87,0.5);color:#ff6b7a;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;letter-spacing:1px;}
+  .soldout-btn{flex:1;width:100%;background:rgba(255,255,255,0.06);color:rgba(240,248,255,0.55);border:1px solid rgba(240,248,255,0.15);padding:12px 16px;border-radius:4px;font-weight:700;font-size:12px;letter-spacing:1px;cursor:not-allowed;text-transform:uppercase;text-align:center;}
+  .product-card.soldout .slider-wrap img{filter:grayscale(0.45) brightness(0.7);}
   .slider-wrap{position:relative;height:420px;overflow:hidden;background:#060f1e;}
   .slider-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;transition:opacity 0.3s;cursor:zoom-in;}
   .slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,212,255,0.25);border:2px solid rgba(0,212,255,0.5);color:var(--accent);width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:28px;display:flex;align-items:center;justify-content:center;z-index:3;transition:all 0.25s;box-shadow:0 4px 15px rgba(0,212,255,0.2);backdrop-filter:blur(4px);}
@@ -260,7 +263,7 @@
         "@type": "Offer",
         "price": "19.99",
         "priceCurrency": "GBP",
-        "availability": "https://schema.org/InStock",
+        "availability": "https://schema.org/OutOfStock",
         "url": "https://icewindfan.co.uk",
         "seller": {"@type": "Organization", "name": "IceWind Fan"},
         "shippingDetails": {
@@ -328,7 +331,7 @@
         "@type": "Offer",
         "price": "19.99",
         "priceCurrency": "GBP",
-        "availability": "https://schema.org/InStock",
+        "availability": "https://schema.org/OutOfStock",
         "url": "https://icewindfan.co.uk",
         "seller": {"@type": "Organization", "name": "IceWind Fan"},
         "shippingDetails": {
@@ -593,8 +596,8 @@
   <div class="products-grid">
 
     <!-- ICE FAN -->
-    <div class="product-card">
-      <span class="uk-stock-badge">UK Stock</span>
+    <div class="product-card soldout">
+      <span class="soldout-badge">SOLD OUT</span>
       <div class="slider-wrap">
         <img loading="lazy" decoding="async" id="iceFanImg" onclick="openProduct('ice')" src="/img/iwf-7.webp" alt="Ice Fan" />
         <button class="slider-btn prev" id="iceFanWrap" onclick="iceFanSlide(-1)">&#8249;</button>
@@ -619,17 +622,16 @@
           <li>Tracked UK delivery (1–3 days)</li>
         </ul>
         <div class="product-footer">
-          <div><div class="price">£19<span style="font-size:18px">.99</span></div><div class="price-sub">Free tracked UK delivery</div></div>
-          <button class="add-btn" onclick="addToCart('Ice Fan', 19.99)">ADD TO CART</button>
-          <button class="buy-btn" onclick="buyNow('Ice Fan', 19.99, this)">BUY NOW</button>
+          <div><div class="price">£19<span style="font-size:18px">.99</span></div><div class="price-sub">Back in stock 25 June</div></div>
+          <button class="soldout-btn" disabled>SOLD OUT · BACK 25 JUNE</button>
         </div>
       </div>
     </div>
 
     <!-- TRI-FOLD ICE FAN -->
-    <div class="product-card featured">
+    <div class="product-card featured soldout">
       <span class="featured-badge">BEST SELLER</span>
-      <span class="uk-stock-badge">UK Stock</span>
+      <span class="soldout-badge">SOLD OUT</span>
       <div class="slider-wrap">
         <img loading="lazy" decoding="async" id="tfFanImg" onclick="openProduct('tf')" src="/img/iwf-8.webp" alt="Tri-Fold Ice Fan" />
         <button class="slider-btn prev" onclick="tfFanSlide(-1)">&#8249;</button>
@@ -655,9 +657,8 @@
           <li>Tracked UK delivery (1–3 days)</li>
         </ul>
         <div class="product-footer">
-          <div><div class="price">£19<span style="font-size:18px">.99</span></div><div class="price-sub">Free tracked UK delivery</div></div>
-          <button class="add-btn" onclick="addToCart('Tri-Fold Ice Fan', 19.99)">ADD TO CART</button>
-          <button class="buy-btn" onclick="buyNow('Tri-Fold Ice Fan', 19.99, this)">BUY NOW</button>
+          <div><div class="price">£19<span style="font-size:18px">.99</span></div><div class="price-sub">Back in stock 25 June</div></div>
+          <button class="soldout-btn" disabled>SOLD OUT · BACK 25 JUNE</button>
         </div>
       </div>
     </div>
@@ -1112,7 +1113,9 @@
 
   // CART
   let cart=JSON.parse(localStorage.getItem('icewindCart')||'[]');
+  const SOLD_OUT=['Ice Fan','Tri-Fold Ice Fan'];
   function addToCart(name,price){
+    if(SOLD_OUT.includes(name)){alert(name+' is currently sold out — back in stock 25 June.');return;}
     // Ask for colour first, then add to cart
     const colors=productColors[name]||[];
     _cartPending={name,price};
@@ -1225,6 +1228,7 @@
   let _colorMode = "buy"; // "buy" or "cart"
 
   function buyNow(name, price, btn) {
+    if(SOLD_OUT.includes(name)){alert(name+' is currently sold out — back in stock 25 June.');return;}
     const colors = productColors[name] || [];
     _buyPending = {name, price};
     _colorMode = 'buy';

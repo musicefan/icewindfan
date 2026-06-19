@@ -136,6 +136,8 @@
     try { return JSON.parse(sessionStorage.getItem('icewindProduct')); } catch(e) { return null; }
   })();
 
+  const SOLD_OUT = ['Ice Fan', 'Tri-Fold Ice Fan'];
+
   const paymentLinks = {
     'Ice Fan':          'https://buy.stripe.com/9B6eV6fZK2FXbQo6Zh24000',
     'Tri-Fold Ice Fan': 'https://buy.stripe.com/eVq7sE3cY5S9aMkfvN24005',
@@ -185,10 +187,11 @@
             <div class="price">${p.price}</div>
             <div class="price-sub">Free tracked UK delivery</div>
           </div>
-          <span class="uk-badge">&#127468;&#127463; UK Stock · Ships from London</span>
+          <span class="uk-badge">${SOLD_OUT.includes(p.cartName) ? '&#10060; Sold Out · Back in stock 25 June' : '&#127468;&#127463; UK Stock · Ships from London'}</span>
           <div class="actions">
-            <button class="add-btn" onclick="openColorModal('cart')">ADD TO CART</button>
-            ${paymentLinks[p.cartName] ? `<button class="buy-btn" onclick="openColorModal('buy')">BUY NOW</button>` : ``}
+            ${SOLD_OUT.includes(p.cartName)
+              ? `<button class="add-btn" disabled style="opacity:0.55;cursor:not-allowed;background:rgba(255,255,255,0.08);color:rgba(240,248,255,0.6);">SOLD OUT · BACK 25 JUNE</button>`
+              : `<button class="add-btn" onclick="openColorModal('cart')">ADD TO CART</button>${paymentLinks[p.cartName] ? `<button class="buy-btn" onclick="openColorModal('buy')">BUY NOW</button>` : ``}`}
           </div>
         </div>
       `;
