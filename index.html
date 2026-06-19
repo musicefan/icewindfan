@@ -1125,8 +1125,8 @@
     _colorMode='cart';
     document.getElementById('colorModal').classList.add('active');
   }
-  function changeQty(name,colour,delta){const e=cart.find(i=>i.name===name&&i.colour===colour);if(!e)return;e.qty+=delta;if(e.qty<=0)cart=cart.filter(i=>!(i.name===name&&i.colour===colour));updateCartUI();}
-  function removeFromCart(name,colour){cart=cart.filter(i=>!(i.name===name&&i.colour===colour));updateCartUI();}
+  function changeQty(name,colour,delta){const e=cart.find(i=>i.name===name&&(i.colour||'')===(colour||''));if(!e)return;e.qty+=delta;if(e.qty<=0)cart=cart.filter(i=>!(i.name===name&&(i.colour||'')===(colour||'')));updateCartUI();}
+  function removeFromCart(name,colour){cart=cart.filter(i=>!(i.name===name&&(i.colour||'')===(colour||'')));updateCartUI();}
   function updateCartUI(){
     localStorage.setItem('icewindCart', JSON.stringify(cart));
     const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
