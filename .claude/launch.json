@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "IceWindFan Preview",
-      "runtimeExecutable": "/usr/bin/ruby",
-      "runtimeArgs": ["-run", "-e", "httpd", "--", "-p", "3000", "/Users/mac/Desktop/icewindfan"],
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "3000"],
       "port": 3000
     }
   ]
