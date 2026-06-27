@@ -294,15 +294,20 @@
         closeColorModal();
         return;
       }
-      const baseUrl = paymentLinks[p.cartName];
-      if (!baseUrl) {
-        alert('Payment link not set up yet.');
-        closeColorModal();
-        return;
-      }
-      const url = baseUrl + '?prefilled_email=&metadata[colour]=' + encodeURIComponent(color);
-      closeColorModal();
-      window.location.href = url;
+      // Buy now — go through the dynamic checkout so the COLOUR is recorded in Stripe
+      const btn = document.getElementById('colorConfirm');
+      if (btn) { btn.disabled = true; btn.textContent = 'Processing…'; }
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ cart: [{ name: p.cartName, price: p.cartPrice, qty: 1, colour: color }] })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.url) { window.location.href = d.url; }
+        else { alert('Checkout error: ' + (d.error || 'Unknown error')); closeColorModal(); }
+      })
+      .catch(() => { alert('Could not connect. Please try again.'); closeColorModal(); });
     }
 
     document.getElementById('colorModal').addEventListener('click', function(e){

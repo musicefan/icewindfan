@@ -1269,18 +1269,22 @@
       updateCartUI();
       openCart();
     } else {
-      // Buy now — go to Stripe
+      // Buy now — go through the dynamic checkout so the COLOUR is recorded in Stripe
       if (!_buyPending) return;
-      const {name} = _buyPending;
-      const baseUrl = paymentLinks[name];
-      if (!baseUrl || baseUrl.includes('REPLACE_WITH')) {
-        alert('Payment link not set up yet.');
-        closeColorModal();
-        return;
-      }
-      const url = baseUrl + '?prefilled_email=&metadata[colour]=' + encodeURIComponent(color);
-      closeColorModal();
-      window.location.href = url;
+      const {name, price} = _buyPending;
+      const btn = document.getElementById('colorConfirm');
+      if (btn){ btn.disabled = true; document.getElementById('colorConfirmLabel').textContent = 'Processing…'; }
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ cart: [{ name, price, qty: 1, colour: color }] })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.url) { window.location.href = d.url; }
+        else { alert('Checkout error: ' + (d.error || 'Unknown error')); closeColorModal(); }
+      })
+      .catch(() => { alert('Could not connect. Please try again.'); closeColorModal(); });
     }
   }
 
