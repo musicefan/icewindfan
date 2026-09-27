@@ -703,7 +703,7 @@
         <div class="product-footer">
           <div><div class="price">£19<span style="font-size:18px">.99</span></div><div class="price-sub">Free tracked UK delivery</div></div>
           <button class="add-btn" onclick="addToCart('High Speed Fan', 19.99)">ADD TO CART</button>
-          <button class="buy-btn" onclick="buyNow('High Speed Fan', 19.99, this)">BUY NOW</button>
+          
         </div>
       </div>
     </div>
@@ -737,7 +737,7 @@
         <div class="product-footer">
           <div><div class="price">&pound;19<span style="font-size:18px">.99</span></div><div class="price-sub">Free tracked UK delivery</div></div>
           <button class="add-btn" onclick="addToCart('Foldable Ice Fan', 19.99)">ADD TO CART</button>
-          <button class="buy-btn" onclick="buyNow('Foldable Ice Fan', 19.99, this)">BUY NOW</button>
+          
         </div>
       </div>
     </div>
@@ -1036,7 +1036,7 @@
     <div id="cartTotalWrap" style="display:none">
       <div class="cart-total"><span>TOTAL</span><span id="totalPrice">£0.00</span></div>
       <div class="cart-total-sub">Includes free tracked UK delivery · Secure payment via Stripe</div>
-      <button class="checkout-btn" onclick="cartCheckout()">PROCEED TO PAYMENT</button>
+      <button class="checkout-btn" disabled style="opacity:0.4;cursor:not-allowed;">PAYMENTS PAUSED</button>
       <div class="cart-color-note">You will choose your colour on the next step</div>
     </div>
   </div>
@@ -1176,31 +1176,7 @@
   updateCartUI(); // reflect any saved cart (e.g. items added from the product page) on load
 
 
-  async function cartCheckout(){
-    if(cart.length === 0) return;
-    const btn = document.querySelector('.checkout-btn');
-    if(btn){ btn.disabled=true; btn.textContent='Processing…'; }
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({cart})
-      });
-      const data = await res.json();
-      if(data.url){
-        // Clear cart and redirect to Stripe
-        cart = [];
-        localStorage.removeItem('icewindCart');
-        window.location.href = data.url;
-      } else {
-        alert('Checkout error: ' + (data.error || 'Unknown error'));
-        if(btn){ btn.disabled=false; btn.textContent='PROCEED TO PAYMENT'; }
-      }
-    } catch(e) {
-      alert('Could not connect to server. Please try again.');
-      if(btn){ btn.disabled=false; btn.textContent='PROCEED TO PAYMENT'; }
-    }
-  }
+  async 
   document.getElementById('cartOverlay').addEventListener('click',function(e){if(e.target===this)closeCart();});
 
   // Contact form
@@ -1221,37 +1197,13 @@
   // Stripe Payment Links — no server needed
   // Create Payment Links in your Stripe Dashboard and paste the URLs below
   // dashboard.stripe.com → Payment Links → + New
-  const paymentLinks = {
-    'Ice Fan':          'https://buy.stripe.com/9B6eV6fZK2FXbQo6Zh24000',
-    'Tri-Fold Ice Fan': 'https://buy.stripe.com/eVq7sE3cY5S9aMkfvN24005',
-    'High Speed Fan':   'https://buy.stripe.com/fZu9AMcNy0xPbQofvN24004',
-    'Foldable Ice Fan': 'https://buy.stripe.com/fZuaEQ6pa1BT3jS6Zh24003'
-  };
-  const productColors = {
-    'Ice Fan':          ['Grape Purple', 'Peach Pink', 'White'],
-    'Tri-Fold Ice Fan': ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
-    'High Speed Fan':   ['Green & White', 'Peach Pink', 'Grape Purple', 'Blackberry'],
-    'Foldable Ice Fan':  ['Black', 'White', 'Pink']
-  };
+  
+  
   let _buyPending = null;
   let _cartPending = null;
   let _colorMode = "buy"; // "buy" or "cart"
 
-  function buyNow(name, price, btn) {
-    if(SOLD_OUT.includes(name)){alert(name+' is currently sold out — back in stock 25 June.');return;}
-    const colors = productColors[name] || [];
-    _buyPending = {name, price};
-    _colorMode = 'buy';
-    document.getElementById('colorModalProduct').textContent = name + ' · £' + price.toFixed(2);
-    document.getElementById('colorModalTitle').textContent = 'CHOOSE COLOUR';
-    document.getElementById('colorConfirmLabel').textContent = 'PROCEED TO PAYMENT →';
-    const opts = document.getElementById('colorOptions');
-    opts.innerHTML = colors.map(c =>
-      `<button class="color-opt" onclick="selectColor(this)">${c}</button>`
-    ).join('');
-    document.getElementById('colorConfirm').disabled = true;
-    document.getElementById('colorModal').classList.add('active');
-  }
+  
 
   function selectColor(el) {
     document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('selected'));
@@ -1265,38 +1217,7 @@
     _cartPending = null;
   }
 
-  function confirmColor() {
-    const selected = document.querySelector('.color-opt.selected');
-    if (!selected) return;
-    const color = selected.textContent;
-    if (_colorMode === 'cart') {
-      // Add to cart with colour
-      const {name, price} = _cartPending;
-      const existing = cart.find(i => i.name === name && i.colour === color);
-      if (existing) existing.qty++;
-      else cart.push({name, price, qty:1, colour: color});
-      closeColorModal();
-      updateCartUI();
-      openCart();
-    } else {
-      // Buy now — go through the dynamic checkout so the COLOUR is recorded in Stripe
-      if (!_buyPending) return;
-      const {name, price} = _buyPending;
-      const btn = document.getElementById('colorConfirm');
-      if (btn){ btn.disabled = true; document.getElementById('colorConfirmLabel').textContent = 'Processing…'; }
-      fetch('/api/checkout', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ cart: [{ name, price, qty: 1, colour: color }] })
-      })
-      .then(r => r.json())
-      .then(d => {
-        if (d.url) { window.location.href = d.url; }
-        else { alert('Checkout error: ' + (d.error || 'Unknown error')); closeColorModal(); }
-      })
-      .catch(() => { alert('Could not connect. Please try again.'); closeColorModal(); });
-    }
-  }
+  
 
   document.getElementById('colorModal').addEventListener('click', function(e){ if(e.target===this) closeColorModal(); });
 
